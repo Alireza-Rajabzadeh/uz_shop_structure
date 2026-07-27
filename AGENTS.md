@@ -78,6 +78,7 @@ Run these commands from the workspace root.
 | `docker compose exec -T django python manage.py migrate` | Apply migrations |
 | `docker compose exec -T django python manage.py seed` | Seed development/reference data |
 | `docker compose exec -T django python manage.py check` | Run Django system checks |
+| `docker compose exec -T django python manage.py test domains.catalog.tests` | Run focused catalog API tests |
 | `docker compose config --quiet` | Validate Compose configuration |
 
 ## Environment
@@ -119,3 +120,4 @@ Keep the service name `django` and the `/app` container working directory unless
 3. Docker bind-mounts `./back:/app`; moving or renaming `back/` breaks the backend container.
 4. The frontend uses its own `.next` directory. Do not run `next build` while `next dev` or `next start` is using that directory.
 5. `.env` is shared by Compose, while Django also loads `back/.env` when run directly outside Compose.
+6. Gunicorn does not auto-reload bind-mounted backend changes. Restart `django` after changing backend routes or application code before testing through Nginx or the frontend proxy.
