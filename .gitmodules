@@ -1,0 +1,6 @@
+[submodule "back"]
+	path = back
+	url = https://github.com/Alireza-Rajabzadeh/uz_shop_django.git
+[submodule "admin_panel"]
+	path = admin_panel
+	url = git@github.com:Alireza-Rajabzadeh/uz_shop_admin.git

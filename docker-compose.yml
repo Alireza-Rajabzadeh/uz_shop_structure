@@ -2,14 +2,16 @@ services:
 
   django:
     build:
-      context: ./app
+      context: ./back
     container_name: django_app
     user: "${UID}:${GID}"
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      HOME: /tmp
     volumes:
-      - ./app:/app
+      - ./back:/app
     depends_on:
       - postgres
       - redis
