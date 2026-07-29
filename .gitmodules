@@ -4,3 +4,6 @@
 [submodule "admin_panel"]
 	path = admin_panel
 	url = git@github.com:Alireza-Rajabzadeh/uz_shop_admin.git
+[submodule "infra/minio"]
+	path = infra/minio
+	url = git@github.com:Alireza-Rajabzadeh/Minio.git

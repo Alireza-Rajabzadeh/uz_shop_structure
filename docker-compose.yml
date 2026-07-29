@@ -12,6 +12,9 @@ services:
       HOME: /tmp
     volumes:
       - ./back:/app
+    networks:
+      - default
+      - storage
     depends_on:
       - postgres
       - redis
@@ -65,3 +68,8 @@ volumes:
   postgres_data:
   mongo_data:
   redis_data:
+
+networks:
+  storage:
+    name: ${MINIO_NETWORK_NAME:-uzshop-storage}
+    external: true
