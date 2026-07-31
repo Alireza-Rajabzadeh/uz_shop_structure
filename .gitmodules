@@ -7,3 +7,6 @@
 [submodule "infra/minio"]
 	path = infra/minio
 	url = git@github.com:Alireza-Rajabzadeh/Minio.git
+[submodule "client_panel"]
+	path = client_panel
+	url = git@github.com:Alireza-Rajabzadeh/uz_shop_next.git
