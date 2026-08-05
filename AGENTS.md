@@ -61,6 +61,7 @@ Do not remove a child `.git` file/directory, copy child source into the top-leve
 | Service | Purpose |
 |---|---|
 | `django` | Gunicorn-served Django backend on the internal port `8000` |
+| `celery_worker` | Processes asynchronous notification jobs from Redis |
 | `postgres` | PostgreSQL database |
 | `redis` | Redis cache/infrastructure |
 | `mongo` | MongoDB infrastructure/log storage |
@@ -94,6 +95,8 @@ Documented variables:
 - `DEBUG`, `SECRET_KEY`
 - `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_HOST`, `POSTGRES_PORT`
 - `REDIS_HOST`, `REDIS_PORT`
+- `CELERY_BROKER_URL`
+- `CONFIRMED_REQUEST_REDIS_URL`, `CONFIRMED_REQUEST_DEV_CODE`
 - `MONGO_HOST`, `MONGO_PORT`, `MONGO_USER`, `MONGO_PASSWORD`
 - `UID`, `GID` when running the Django container as the host user
 

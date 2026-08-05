@@ -22,6 +22,23 @@ services:
     command: >
       sh -c " python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 4 "
 
+  celery_worker:
+    build:
+      context: ./back
+    container_name: celery_worker
+    user: "${UID}:${GID}"
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      HOME: /tmp
+    volumes:
+      - ./back:/app
+    depends_on:
+      - postgres
+      - redis
+    command: celery -A config worker --loglevel=info --concurrency=2
+
   postgres:
     image: postgres:17
     container_name: postgres_db
