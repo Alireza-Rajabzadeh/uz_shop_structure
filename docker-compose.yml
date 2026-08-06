@@ -55,6 +55,9 @@ services:
     volumes:
       - ./back:/app
       - ./runtime/digikala:/var/lib/uzshop/digikala
+    networks:
+      - default
+      - storage
     depends_on:
       - postgres
       - redis
