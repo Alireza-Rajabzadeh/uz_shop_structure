@@ -70,3 +70,7 @@ infra/minio/credentials.txt
 # =========================
 logs/
 *.log
+
+# File-backed Digikala listing and import jobs
+runtime/digikala/*
+!runtime/digikala/.gitkeep

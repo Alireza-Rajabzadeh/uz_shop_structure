@@ -10,8 +10,10 @@ services:
       - .env
     environment:
       HOME: /tmp
+      DIGIKALA_RUNTIME_ROOT: /var/lib/uzshop/digikala
     volumes:
       - ./back:/app
+      - ./runtime/digikala:/var/lib/uzshop/digikala
     networks:
       - default
       - storage
@@ -38,6 +40,27 @@ services:
       - postgres
       - redis
     command: celery -A config worker --loglevel=info --concurrency=2
+
+  celery_digikala_worker:
+    build:
+      context: ./back
+    container_name: celery_digikala_worker
+    user: "${UID}:${GID}"
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      HOME: /tmp
+      DIGIKALA_RUNTIME_ROOT: /var/lib/uzshop/digikala
+    volumes:
+      - ./back:/app
+      - ./runtime/digikala:/var/lib/uzshop/digikala
+    depends_on:
+      - postgres
+      - redis
+    command: >
+      celery -A config worker --loglevel=info --queues=digikala
+      --concurrency=1 --prefetch-multiplier=1
 
   postgres:
     image: postgres:17

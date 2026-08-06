@@ -62,6 +62,7 @@ Do not remove a child `.git` file/directory, copy child source into the top-leve
 |---|---|
 | `django` | Gunicorn-served Django backend on the internal port `8000` |
 | `celery_worker` | Processes asynchronous notification jobs from Redis |
+| `celery_digikala_worker` | Runs sequential Digikala listing/import jobs on the dedicated queue |
 | `postgres` | PostgreSQL database |
 | `redis` | Redis cache/infrastructure |
 | `mongo` | MongoDB infrastructure/log storage |
@@ -80,6 +81,7 @@ Run these commands from the workspace root.
 | `docker compose restart django` | Reload mounted backend code under Gunicorn |
 | `docker compose ps` | Show service status |
 | `docker compose logs django` | Show backend logs |
+| `docker compose logs celery_digikala_worker` | Show Digikala scraper/import logs |
 | `docker compose exec -T django python manage.py migrate` | Apply migrations |
 | `docker compose exec -T django python manage.py seed` | Seed development/reference data |
 | `docker compose exec -T django python manage.py seed_categories` | Load the canonical category taxonomy |
