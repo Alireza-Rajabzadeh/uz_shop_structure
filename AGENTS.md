@@ -82,6 +82,7 @@ Run these commands from the workspace root.
 | `docker compose logs django` | Show backend logs |
 | `docker compose exec -T django python manage.py migrate` | Apply migrations |
 | `docker compose exec -T django python manage.py seed` | Seed development/reference data |
+| `docker compose exec -T django python manage.py seed_categories` | Load the canonical category taxonomy |
 | `docker compose exec -T django python manage.py check` | Run Django system checks |
 | `docker compose exec -T django python manage.py test domains.catalog.tests` | Run focused catalog API tests |
 | `docker compose config --quiet` | Validate Compose configuration |
