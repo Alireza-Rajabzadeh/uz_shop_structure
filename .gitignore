@@ -74,3 +74,6 @@ logs/
 # File-backed Digikala listing and import jobs
 runtime/digikala/*
 !runtime/digikala/.gitkeep
+
+# Local scratch tooling (not a submodule)
+script_space/
