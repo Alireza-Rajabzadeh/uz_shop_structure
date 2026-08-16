@@ -9,6 +9,7 @@ Application code lives in child repositories:
 - `back/` - Django REST API backend
 - `admin_panel/` - Next.js admin frontend
 - `client_panel/` - Next.js customer-facing frontend
+- `visuals/` - Shared TypeScript visual assets package
 
 Read the child repository's `AGENTS.md` before changing application code there. The nearest agent file takes precedence for files inside that submodule.
 
@@ -19,6 +20,7 @@ uz_shop_django/
 ├── back/             # Backend Git submodule
 ├── admin_panel/      # Admin frontend Git submodule
 ├── client_panel/     # Customer-facing frontend Git submodule
+├── visuals/          # Shared visual assets package Git submodule
 ├── nginx/            # Backend reverse-proxy configuration
 ├── docker-compose.yml
 ├── .env.example
@@ -34,6 +36,7 @@ Do not recreate the previous `app/` directory. Docker builds and mounts the back
 | `back/` | `https://github.com/Alireza-Rajabzadeh/uz_shop_django.git` |
 | `admin_panel/` | `git@github.com:Alireza-Rajabzadeh/uz_shop_admin.git` |
 | `client_panel/` | `git@github.com:Alireza-Rajabzadeh/uz_shop_next.git` |
+| `visuals/` | `git@github.com:Alireza-Rajabzadeh/uz_shop_fronts_shared_packages.git` |
 
 Initialize a fresh checkout with:
 
@@ -49,6 +52,7 @@ Application changes must be committed inside the relevant child repository first
 git -C back status
 git -C admin_panel status
 git -C client_panel status
+git -C visuals status
 git status
 ```
 
@@ -121,6 +125,7 @@ Keep the service name `django` and the `/app` container working directory unless
 - Backend changes: make them inside `back/` and follow `back/AGENTS.md`.
 - Admin frontend changes: make them inside `admin_panel/` and follow `admin_panel/AGENTS.md`.
 - Customer frontend changes: make them inside `client_panel/` and follow `client_panel/AGENTS.md`.
+- Shared visual package changes: make them inside `visuals/` and publish them before updating frontend lockfiles.
 - Do not mix application code into the orchestration repository.
 - Do not modify multiple child repositories for a single concern unless the API contract actually requires coordinated changes.
 

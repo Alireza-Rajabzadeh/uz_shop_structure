@@ -10,3 +10,6 @@
 [submodule "client_panel"]
 	path = client_panel
 	url = git@github.com:Alireza-Rajabzadeh/uz_shop_next.git
+[submodule "visuals"]
+	path = visuals
+	url = git@github.com:Alireza-Rajabzadeh/uz_shop_fronts_shared_packages.git
