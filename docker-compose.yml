@@ -15,12 +15,15 @@ services:
       - ./back:/app
       - ./runtime/digikala:/var/lib/uzshop/digikala
     networks:
-      - default
+      - app
       - storage
     depends_on:
-      - postgres
-      - redis
-      - mongo
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_healthy
+      mongo:
+        condition: service_started
     command: >
       sh -c " python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 4 "
 
@@ -36,9 +39,13 @@ services:
       HOME: /tmp
     volumes:
       - ./back:/app
+    networks:
+      - app
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_healthy
     command: celery -A config worker --loglevel=info --concurrency=2
 
   celery_digikala_worker:
@@ -56,11 +63,13 @@ services:
       - ./back:/app
       - ./runtime/digikala:/var/lib/uzshop/digikala
     networks:
-      - default
+      - app
       - storage
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_started
+      redis:
+        condition: service_healthy
     command: >
       celery -A config worker --loglevel=info --queues=digikala
       --concurrency=1 --prefetch-multiplier=1
@@ -77,6 +86,8 @@ services:
       POSTGRES_PASSWORD: secret
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app
 
   mongo:
     image: mongo:8
@@ -87,14 +98,30 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: secret
     volumes:
       - mongo_data:/data/db
+    networks:
+      - app
 
   redis:
     image: redis:8-alpine
     container_name: redis_cache
     restart: unless-stopped
-    command: redis-server --appendonly yes
+    environment:
+      BACKEND_REDIS_PASSWORD: ${BACKEND_REDIS_PASSWORD:?Set BACKEND_REDIS_PASSWORD in .env}
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD-SHELL", "REDISCLI_AUTH=$$BACKEND_REDIS_PASSWORD redis-cli --user backend ping | grep -q PONG"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
     volumes:
       - redis_data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    secrets:
+      - source: redis_users_acl
+        target: redis_users_acl
+    networks:
+      - app
 
   nginx:
     image: nginx:alpine
@@ -106,13 +133,21 @@ services:
       - django
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app
 
 volumes:
   postgres_data:
   mongo_data:
   redis_data:
 
+secrets:
+  redis_users_acl:
+    file: ./redis/users.acl
+
 networks:
+  app:
+    name: ${APP_NETWORK_NAME:-uzshop-app}
   storage:
     name: ${MINIO_NETWORK_NAME:-uzshop-storage}
     external: true

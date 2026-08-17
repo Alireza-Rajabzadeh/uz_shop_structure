@@ -1,0 +1,3 @@
+user default off
+user backend on #<BACKEND_REDIS_PASSWORD_SHA256> ~backend:* ~public:* ~private:* &* +@all -@admin -@dangerous
+user client on #<CLIENT_REDIS_PASSWORD_SHA256> ~public:* resetchannels +auth +hello +ping +select +quit +get +mget +exists +ttl +pttl
