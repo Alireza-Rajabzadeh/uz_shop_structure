@@ -78,3 +78,6 @@ runtime/digikala/*
 
 # Local scratch tooling (not a submodule)
 script_space/
+
+# Licensed local font source packages
+source/
