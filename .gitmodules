@@ -13,3 +13,6 @@
 [submodule "visuals"]
 	path = visuals
 	url = git@github.com:Alireza-Rajabzadeh/uz_shop_fronts_shared_packages.git
+[submodule "infra/backups"]
+	path = infra/backups
+	url = git@github.com:Alireza-Rajabzadeh/uz_shop_backup_space.git

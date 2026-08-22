@@ -21,6 +21,7 @@ uz_shop_django/
 ├── admin_panel/      # Admin frontend Git submodule
 ├── client_panel/     # Customer-facing frontend Git submodule
 ├── visuals/          # Shared visual assets package Git submodule
+├── infra/backups/    # Backup, restore, verification, and schedule tooling
 ├── nginx/            # Backend reverse-proxy configuration
 ├── docker-compose.yml
 ├── .env.example
@@ -37,6 +38,7 @@ Do not recreate the previous `app/` directory. Docker builds and mounts the back
 | `admin_panel/` | `git@github.com:Alireza-Rajabzadeh/uz_shop_admin.git` |
 | `client_panel/` | `git@github.com:Alireza-Rajabzadeh/uz_shop_next.git` |
 | `visuals/` | `git@github.com:Alireza-Rajabzadeh/uz_shop_fronts_shared_packages.git` |
+| `infra/backups/` | `git@github.com:Alireza-Rajabzadeh/uz_shop_backup_space.git` |
 
 Initialize a fresh checkout with:
 
@@ -92,6 +94,8 @@ Run these commands from the workspace root.
 | `docker compose exec -T django python manage.py check` | Run Django system checks |
 | `docker compose exec -T django python manage.py test domains.catalog.tests` | Run focused catalog API tests |
 | `docker compose config --quiet` | Validate Compose configuration |
+| `infra/backups/scripts/backup.sh postgres` | Back up one selected data component |
+| `infra/backups/scripts/verify.sh` | Verify the encrypted backup repository |
 
 ## Environment
 

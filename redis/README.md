@@ -13,7 +13,9 @@ ACL namespaces; backend startup rejects mismatched values.
 
 1. Set a URL-safe `BACKEND_REDIS_PASSWORD` in the ignored root `.env` file and
    put a different client password in the server-only `CLIENT_REDIS_URL` in
-   `client_panel/.env`. Hex-encoded random values avoid URL-encoding ambiguity.
+   `client_panel/.env`. Set a third password in `infra/backups/.env` only when
+   Redis snapshots are enabled. Hex-encoded random values avoid URL-encoding
+   ambiguity.
 2. Copy `users.acl.example` to the ignored `users.acl` file.
 3. Replace each hash placeholder with the lowercase SHA-256 hash of the
    corresponding password. Redis ACL password hashes use `#<sha256>` syntax.
@@ -28,6 +30,10 @@ Each deployed password and its hash in `users.acl` must match. Redis
 configuration files do not expand environment variables, so Compose mounts the
 real ACL file as a file-backed secret. Production deployments should provide
 the same secret from their deployment secret manager rather than committing it.
+
+The optional `backup` user can only inspect persistence state and request an
+RDB snapshot. It has no key access. Leave it disabled by omitting the user from
+the deployed `users.acl` when Redis backups are not used.
 
 The backend constructs authenticated database 1 and database 2 URLs from
 `BACKEND_REDIS_PASSWORD`. A containerized customer panel should receive this
