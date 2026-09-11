@@ -16,3 +16,6 @@
 [submodule "infra/backups"]
 	path = infra/backups
 	url = git@github.com:Alireza-Rajabzadeh/uz_shop_backup_space.git
+[submodule "vendor_panel"]
+	path = vendor_panel
+	url = git@github.com:Alireza-Rajabzadeh/uz_shop_next.git
